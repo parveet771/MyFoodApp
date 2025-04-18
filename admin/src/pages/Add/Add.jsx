@@ -22,14 +22,7 @@ const Add = ({url}) => {
         formData.append("description", data.description);
         formData.append("price", Number(data.price));
         formData.append("category", data.category);
-       // formData.append("image", image ? image : "");
-        formData.get("image");
-
-        // await uploadImage({
-        //   image,
-        // });
-      
-       // const response = await axios.post(`${url}/api/food/add`, formData);
+        formData.append("image", image ? image : "");
        
        const response = await axios.post(`${url}/api/food/add`, formData,{
         headers: {
@@ -69,8 +62,7 @@ const Add = ({url}) => {
 
     return (
         <div className='add'>
-            <form className='flex-col' onSubmit={onSubmitHandler}>
-                {/* <form className='flex-col'> */}
+            <form className='flex-col' onSubmit={onSubmitHandler}>             
                 <div className="add-img-upload flex-col">
                     <p>Upload Image</p>
                     <label htmlFor="image">

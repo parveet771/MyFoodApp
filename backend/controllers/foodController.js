@@ -1,18 +1,9 @@
-//import { model } from "mongoose";
 import foodModel from "../models/foodmodels.js";
 import fs from 'fs'
 
 const addFood = async (req, res) => {
-    // console.log("req.filename--> "+`${req}`);
-   // console.log("req.filename--> "+req.originalname +`${req.file.filename} +${res.file.filename} +${res.originalname}`);
-    //console.log("req.filename--> "+JSON.Stringify(req));
-  // let image_filename = `${req.file}? ${req.originalname} + ${req.file.filename} +${res.file.filename} +${res.originalname}: null`;
-  //let image_filename =     res ? `/uploads/${req.file.filename}` : null;
-  //console.log(req.file);
-  //const image_filename = req.file;
-
-  const imageUrl = image_filename ? `http://localhost:3000/uploads/${req.file}`: null;
-  console.log(imageUrl);
+   
+  const imageUrl = req.file ? `/uploads/${req.file.filename}`: "";
 
        const food = new foodModel({
         name: req.body.name,
@@ -20,29 +11,16 @@ const addFood = async (req, res) => {
         price: req.body.price,
         category: req.body.category,
         image:imageUrl
-    })  
-    //const { name, description, price , category} = req.body;
-    
-    // Handle the image if it exists
-    // const image_filename = req.file ? `/uploads/${req.file.filename}` : null;
-   // console.log("Uploaded file:", req.file);
+    })     
 
-    if(!image_filename) {
-        return res.status(400).json({
-            success: false,
-            message: `Missing fields: ${!image_filename ? 'image'  + image_filename: "http://localhost:5173/"+image_filename}`,
-        });
-    }
-    //   const food = new foodModel({
-    //     name,
-    //     description,
-    //     category,
-    //     price,
-    //     image: image_filename,
-    //   });
+    // if(!imageUrl) {
+    //     return res.status(400).json({
+    //         success: false,
+    //         message: `Missing fields: ${!image_filename ? 'image'  + image_filename: "http://localhost:5173/"+image_filename}`,
+    //     });
+    // }   
 
-    try {
-       // console.log(food);       
+    try {         
         await food.save();
         res.json({ success: true, message: "Food Added" });
     } catch (error) {
@@ -62,19 +40,16 @@ const addFood = async (req, res) => {
 };
 
 //remove
-
  const removeFood = async(req, res) =>{
     try{    
-        const foods = await foodModel.find({});
-       // console.log(foods);
+       // const foods = await foodModel.find({});       
         const food = await foodModel.findById(req.body.id);
-       // fs.unlink('uploads/${food.image}',()=>{})       
+        fs.unlink('uploads/${food.image}',()=>{})       
         await foodModel.findByIdAndDelete(req.body.id);
 
         res.json({ success: true, message: "removed" });
     }catch(error){
-        const foods = await foodModel.find({});
-        //console.log(foods);
+        const foods = await foodModel.find({});       
         res.json({ success: false, message: "Error" });
     }
 }

@@ -5,24 +5,17 @@ import { toast } from "react-toastify";
 
 const List = ({url}) => {
   
-    const [list, setList] = useState([]);
-
-    
+    const [list, setList] = useState([]);    
 
     const fetchList = async () => {
         try {
             const response = await axios.get(`${url}/api/food/list`);
-          //  const response = await axios.get("http://localhost:3000/api/food/list");
-            http://localhost:5173/api/food/list
-        //     console.log("foodlist-->"+response.data.data);
-        //     console.log("foodlist-->"+JSON.stringify(response.data.data));
-        // console.log("foodlist-->"+JSON.stringify(response));
+         
             if (response.data.success) {
                 setList(response.data.data);
             }
         } catch (error) {
-            toast.error("Failed to fetch list");
-           // console.error(error);
+            toast.error("Failed to fetch list");          
         }
     };
 
@@ -60,8 +53,8 @@ const List = ({url}) => {
         </div>
         {list.map((item, index) => {
     return (
-        <div key={index} className='list-table-format'>
-            <img src={`${url}/images/${+item.image}`} alt={item.name} />
+        <div key={index} className='list-table-format'>          
+            <img  src={item.image? `http://localhost:3000${item.image}`: "Image"} alt={item.name} />            
             <p>{item.name}</p>
             <p>{item.category}</p>
             <p>${item.price}</p>
